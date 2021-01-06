@@ -4,7 +4,7 @@ The Claims List React Project is a web app that stores newly created claims and 
 
 ## About
 
-This project aims to iterate a portion of a previous project that I've worked on with a different web stack.
+This project aims to iterate a portion of a previous project that I've worked on with a different web stack. I also consider this project an exercise that allowed me to experiment with tools and methods I never used before such as MongoDB, Redux, and an improved folder structure.
 
 ![](/screenshots/claims.png)
 
@@ -12,7 +12,7 @@ This project aims to iterate a portion of a previous project that I've worked on
 
 ## Technologies so far
 
-MongoDB, Express, React, Node
+MongoDB, Express, React, Redux, Node
 
 ## Installation and Preparation
 
