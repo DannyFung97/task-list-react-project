@@ -1,7 +1,16 @@
-.claim {
+.task {
     box-shadow: 0 4px 8px grey;
     padding: 10px;
-    margin: 20px;
+    margin: 2%;
+    animation: pop-up 400ms normal forwards;
+}
+
+.task-info {
+    margin-bottom: 4%;
+}
+
+.task-title {
+    margin: 1vh auto;
 }
 
 .status {
@@ -19,12 +28,15 @@ button {
     display: inline-block;
 }
 
-.button-verify {
+.button-resolve {
     background-color: #08a65f;
     outline: none;
     cursor: pointer;
-    float: right;
     color: white;
+}
+
+.late {
+    color: #d41919;
 }
 
 .checkbox-confirm {
@@ -54,3 +66,13 @@ button {
 .textbox {
     margin-bottom: 1rem;
 }
+
+@keyframes pop-up {
+    from {
+      transform: scale(0);
+    }
+  
+    to {
+      transform: scale(1);
+    }
+  }

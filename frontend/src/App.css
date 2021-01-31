@@ -1,9 +1,15 @@
 #cells{
     overflow:hidden; 
     overflow-y:scroll; 
-    height: 460px;
-    padding-left: 0px;
+    height: 60vh;
+    width: 30vw;
     border: 2px solid #327cc9;
     border-radius: 4px;
     background-color: #fcfcfc;
+  }
+
+  @media only screen and (max-width: 600px) {
+    #cells {
+      width: 90vw;
+    }
   }

@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 const { MongoClient } = require('mongodb');
 const mongoUrl = 'mongodb://127.0.0.1:27017';
 
-const dbName = 'test1'
+const dbName = 'TaskList'
 let db
 
 MongoClient.connect(mongoUrl, { useNewUrlParser: true }, (err, client) => {
@@ -16,74 +16,62 @@ MongoClient.connect(mongoUrl, { useNewUrlParser: true }, (err, client) => {
   console.log(`Connected MongoDB: ${mongoUrl} at Database: ${dbName}`)
 })
 
-// var claims = [{
-//     "text": "Brush teeth",
-//     "isVerified": false,
-//     "isConfirmed": false,
-//     "id": "h4539kv4-44j7-avr2-9l00-1f576biwa369"
-// },
-// {
-//     "text": "Buy ham",
-//     "isVerified": true,
-//     "isConfirmed": true,
-//     "id": "c25b1aaa-zw33-vyui-8954-255g670kjreq"
-// },
-// {
-//     "text": "Buy eggs",
-//     "isVerified": true,
-//     "isConfirmed": false,
-//     "id": "43238hsb-kf0u-37v2-plan-04ovap3lc85b"
-// },
-// {
-//     "text": "Buy bacon",
-//     "isVerified": false,
-//     "isConfirmed": true,
-//     "id": "c3agh633-avyi-d25g-e043-00002ch6k4n1"
-// }]
-
 const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/claims', (req, res) => {
-  db.collection("claims").find({}).toArray().then((values) => { res.status(200).json(values); })
+app.get('/tasks', (req, res) => {
+  db.collection("tasks").find({}).toArray().then((values) => { res.status(200).json(values); })
 });
 
-app.post('/create-claim', (req, res) => {
-  const { name, amount } = req.body;
-  const claimToAdd = {
+app.post('/create-task', (req, res) => {
+  const { name, dueDate } = req.body;
+  const taskToAdd = {
     text: name,
-    isVerified: false,
-    isConfirmed: false,
-    amount: amount,
+    resolveDate: null,
+    dueDate: dueDate,
     id: uuidv4(),
     date: Date.now(),
   }
-  return db.collection('claims').insertOne(claimToAdd).then((newClaim) => {
-    if (newClaim) {
-      res.status(200).json({ message: 'Success', newClaim: claimToAdd });
+  return db.collection('tasks').insertOne(taskToAdd).then((newTask) => {
+    if (newTask) {
+      res.status(200).json({ message: 'Success', newTask: taskToAdd });
     }
     else {
-      res.status(400).json({ message: 'Cannot add claim.' });
+      res.status(400).json({ message: 'Cannot add task.' });
     }
   })
 })
 
-app.post('/verify-claim', (req, res) => {
-  const { claim } = req.body;
-  return db.collection('claims').findOneAndUpdate(
-    { id: claim.id },
+app.post('/resolve-task', (req, res) => {
+  const { task } = req.body;
+  return db.collection('tasks').findOneAndUpdate(
+    { id: task.id },
     {
-      $set: { 'isConfirmed': claim.isConfirmed, 'isVerified': true }
+      $set: { resolveDate: Date.now() }
     },
-    { returnNewDocument: true }
-  ).then((updatedClaim) => {
-    if (updatedClaim.value) {
-      res.status(200).json({ message: 'Success', updatedClaim: updatedClaim.value });
+    { returnOriginal: false }
+  ).then((updatedTask) => {
+    if (updatedTask.value) {
+      res.status(200).json({ message: 'Success', updatedTask: updatedTask.value });
     }
     else {
-      res.status(400).json({ message: 'There is no claim with that id' });
+      res.status(400).json({ message: 'There is no task with that id' });
+    }
+  })
+})
+
+app.post('/delete-history', (req, res) => {
+  return db.collection('tasks').deleteMany(
+    { resolveDate: { $ne : null } },
+    { returnNewDocument: true }
+  ).then((result) => {
+    if (result) {
+      res.status(200).json({ message: 'Success' });
+    }
+    else {
+      res.status(400).json({ message: 'Unable to delete.' });
     }
   })
 })

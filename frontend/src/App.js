@@ -1,13 +1,13 @@
 import React from 'react';
 import {hot} from 'react-hot-loader';
-import ClaimList from './claims/components/ClaimList';
-import NewClaimForm from './claims/components/NewClaimForm';
+import TaskList from './tasks/components/TaskList';
+import TaskOptions from './tasks/components/TaskOptions';
 import "./App.css"
 
 const App = () => (
     <div>
-        <ClaimList />
-        <NewClaimForm />
+        <TaskList />
+        <TaskOptions />
     </div>
 );
 
