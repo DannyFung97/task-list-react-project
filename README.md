@@ -4,7 +4,7 @@ The Tasks List React Project is a web app that stores newly created tasks and al
 
 ## About
 
-This project aims to iterate a portion of a previous project that I've worked on with a different web stack. I also consider this project an exercise that allowed me to experiment with tools and methods I never used before such as MongoDB, Redux, and an improved folder structure.
+This project aims to iterate a portion of a previous project that I've worked on with a different web stack. I also consider this project an exercise that allowed me to experiment with tools and methods I never used before such as MongoDB, Redux, and an improved folder structure. Technologies include NodeJS, ExpressJS, and React.
 
 ![](/screenshots/tasks.png)
 
